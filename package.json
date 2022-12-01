@@ -54,6 +54,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "babel-plugin-macros": "^3.1.0",
     "font-awesome": "^4.7.0",
+    "framer-motion": "^7.6.15",
     "prop-types": "*",
     "react": "*",
     "react-copy-to-clipboard": "^5.1.0",

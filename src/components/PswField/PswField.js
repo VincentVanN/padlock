@@ -43,7 +43,7 @@ font-size: 1.2em;
     cursor: pointer;
     };
 `;
-function PswField({ password, setpassword }) {
+function PswField({ password, setpassword, ifPasswordExist }) {
   const handleClick = useCallback(() => {
     setpassword({ ...password, value: generator() });
   }, []);
@@ -56,10 +56,12 @@ function PswField({ password, setpassword }) {
   }, [password]);
   return (
     <PswFieldContainer>
+      {!password.value && (
       <Title
         onClick={handleClick}
       >Générer un mot de passe
       </Title>
+      )}
       {password.value && (
         <PswdContainer>
           <p>{password.value}</p>
@@ -81,5 +83,6 @@ function PswField({ password, setpassword }) {
 PswField.propTypes = {
   password: PropTypes.object.isRequired,
   setpassword: PropTypes.func.isRequired,
+  ifPasswordExist: PropTypes.bool.isRequired,
 };
 export default PswField;

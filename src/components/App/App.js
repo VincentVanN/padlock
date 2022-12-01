@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import PasswordLabel from '../PasswordLabel/PasswordLabel';
 import PswField from '../PswField/PswField';
+import RegistrationControls from '../RegistrationControls/RegistrationControls';
 
 const AppContainer = styled.div`
   position: absolute;
@@ -17,7 +19,7 @@ const AppContainer = styled.div`
   border-radius: 20px;
   padding-bottom: 40px;
   box-shadow: 2px 8px 11px -5px rgba(0,0,0,0.75);
-  font-family: 'Montserrat', sans-serif;
+  
 `;
 const Title = styled.h1`
   width: 100%;
@@ -27,6 +29,7 @@ const Title = styled.h1`
 `;
 function App() {
   const [password, setpassword] = useState({ value: '', copied: false });
+  const [ifPasswordExist, setifPasswordExist] = useState(false);
   return (
     <AppContainer>
       <ion-icon
@@ -37,7 +40,11 @@ function App() {
         }}
       />
       <Title>PadLocker</Title>
-      <PswField password={password} setpassword={setpassword} />
+      <PasswordLabel ifPasswordExist={ifPasswordExist} />
+      <PswField password={password} setpassword={setpassword} ifPasswordExist={ifPasswordExist} />
+      {password.value && (
+        <RegistrationControls />
+      )}
     </AppContainer>
   );
 }
