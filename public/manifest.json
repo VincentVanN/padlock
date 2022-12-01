@@ -1,0 +1,18 @@
+{
+  "name": "PadLocker",
+  "description": "Gestionnaire de mots de passe",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Ouvrir PadLocker"
+  },
+  "icons": {
+    "16": "padlocker.png",
+    "48": "padlocker.png",
+    "128": "padlocker.png"
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}

@@ -65,7 +65,7 @@ function RegistrationControls() {
           isManualPassword={isManualPassword}
         />
         <RegistrationControlsButtonLabel>
-          enregistrer manuellement un mot de passe
+          enregistrement manuel
         </RegistrationControlsButtonLabel>
       </RegistrationControlsButtonContainer>
       {isManualPassword && (
