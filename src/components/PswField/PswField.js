@@ -28,22 +28,15 @@ const PswdContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const CopiedSpan = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.9em;
-  font-weight: 400;
-`;
 const ClipBoardIcon = styled.div`
 margin-left: 20px;
-font-size: 1.2em;
+font-size: 0.8em;
   &:hover{
     color: #3260a8;
     cursor: pointer;
     };
 `;
-function PswField({ password, setpassword }) {
+function PswField({ password, setpassword, ifPasswordExist }) {
   const handleClick = useCallback(() => {
     setpassword({ ...password, value: generator() });
   }, []);
@@ -56,10 +49,12 @@ function PswField({ password, setpassword }) {
   }, [password]);
   return (
     <PswFieldContainer>
+      {!password.value && (
       <Title
         onClick={handleClick}
       >Générer un mot de passe
       </Title>
+      )}
       {password.value && (
         <PswdContainer>
           <p>{password.value}</p>
@@ -68,10 +63,9 @@ function PswField({ password, setpassword }) {
             onCopy={() => setpassword({ ...password, copied: true })}
           >
             <ClipBoardIcon>
-              <ion-icon name="copy-outline" />
+              {!password.copied ? 'Copier?' : 'Copié!'}
             </ClipBoardIcon>
           </CopyToClipboard>
-          {password.copied ? <CopiedSpan>copié!</CopiedSpan> : null}
         </PswdContainer>
       )}
 
@@ -81,5 +75,6 @@ function PswField({ password, setpassword }) {
 PswField.propTypes = {
   password: PropTypes.object.isRequired,
   setpassword: PropTypes.func.isRequired,
+  ifPasswordExist: PropTypes.bool.isRequired,
 };
 export default PswField;
