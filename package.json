@@ -53,6 +53,7 @@
     "firebase": "^9.14.0",
     "framer-motion": "^7.6.15",
     "jwt-decode": "^3.1.2",
+    "plasmo": "^0.59.2",
     "prop-types": "*",
     "react": "*",
     "react-copy-to-clipboard": "^5.1.0",

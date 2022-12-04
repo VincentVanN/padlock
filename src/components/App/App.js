@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
-/* global chrome */
-import { useEffect, useState } from 'react';
-import GoogleButton from 'react-google-button';
+import { useState } from 'react';
 import styled from 'styled-components';
+import useUrl from '../../hooks/useUrl';
+import SignIn from '../../SignIn';
 import PasswordLabel from '../PasswordLabel/PasswordLabel';
 import PswField from '../PswField/PswField';
 import RegistrationControls from '../RegistrationControls/RegistrationControls';
@@ -41,78 +41,16 @@ text-align: center;
 margin-bottom: 20px;
 `;
 function App() {
-  const API_KEY = 'AIzaSyB4aeImXjkgJxv-AQGBMpuCOutKk1HLoJs';
   const [password, setpassword] = useState({ value: '', copied: false });
   const [ifPasswordExist, setifPasswordExist] = useState(false);
-  const [userSignedIn, setuserSignedIn] = useState(false);
-
-  const [url, setUrl] = useState('');
-  useEffect(() => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
-    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
-      const { url } = tabs[0];
-      const pathArray = url.split('/');
-      const host = pathArray[2];
-      setUrl(host);
-    });
-  }, []);
-  // useEffect(() => {
-  //   chrome.identity.onSignInChanged.addListener((account_id, signedIn) => {
-  //     if (signedIn) {
-  //       setuserSignedIn(true);
-  //     }
-  //     else {
-  //       setuserSignedIn(false);
-  //     }
-  //   });
-  //   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  //     if (request.message === 'get_auth_token') {
-  //       chrome.identity.getAuthToken({ interactive: true }, (token) => {
-  //         console.log(token);
-  //       });
-  //     }
-  //     else if (request.message === 'get_profile') {
-  //       chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, (user_info) => {
-  //         console.log(user_info);
-  //       });
-  //     }
-  //     else if (request.message === 'get_contacts') {
-  //       chrome.identity.getAuthToken({ interactive: true }, (token) => {
-  //         let fetch_url = `https://people.googleapis.com/v1/contactGroups/all?maxMembers=20&key=${API_KEY}`;
-  //         const fetch_options = {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         };
-
-  //         fetch(fetch_url, fetch_options)
-  //           .then((res) => res.json())
-  //           .then((res) => {
-  //             if (res.memberCount) {
-  //               const members = res.memberResourceNames;
-  //               fetch_url = `https://people.googleapis.com/v1/people:batchGet?personFields=names&key=${API_KEY}`;
-
-  //               members.forEach((member) => {
-  //                 fetch_url += `&resourceNames=${encodeURIComponent(member)}`;
-  //               });
-
-  //               fetch(fetch_url, fetch_options)
-  //                 .then((res) => res.json())
-  //                 .then((res) => console.log(res));
-  //             }
-  //           });
-  //       });
-  //     }
-  //   });
-  // }, []);
+  const url = useUrl();
   return (
     <AppContainer>
       <Header>
         <img src="/lock-48.png" alt="lock" />
         <Title>PadLocker</Title>
       </Header>
-
-      <GoogleButton />
+      <SignIn />
       <Url>
         Hôte: {url}
       </Url>
@@ -126,3 +64,27 @@ function App() {
 }
 
 export default App;
+
+// {
+//   "name": "PadLocker",
+//   "description": "Gestionnaire de mots de passe",
+//   "version": "0.1",
+//   "manifest_version": 2,
+//   "browser_action": {
+//     "default_popup": "index.html",
+//     "default_title": "Ouvrir PadLocker"
+//   },
+//   "icons": {
+//     "16": "padlocker.png",
+//     "48": "padlocker.png",
+//     "128": "padlocker.png"
+//   },
+//   "permissions": [
+//     "activeTab",
+//     "identity"
+//   ],
+//   "optional_permissions": [
+//     "<all_urls>"
+//   ],
+//   "content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://www.googleapis.com https://securetoken.googleapis.com; object-src 'self'"
+// }
