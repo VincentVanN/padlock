@@ -1,18 +1,30 @@
 {
-  "name": "PadLocker",
-  "description": "Gestionnaire de mots de passe",
-  "version": "1.0",
-  "manifest_version": 3,
-  "action": {
-    "default_popup": "index.html",
-    "default_title": "Ouvrir PadLocker"
+  "icons":
+  {"16":"padlocker.png",
+  "32":"padlocker.png",
+  "48":"padlocker.png",
+  "64":"padlocker.png",
+  "128":"padlocker.png"
   },
-  "icons": {
-    "16": "padlocker.png",
-    "48": "padlocker.png",
-    "128": "padlocker.png"
-  },
-  "permissions": [
-    "activeTab"
-  ]
-}
+  "manifest_version":3,
+  "action":{
+   "default_popup":"index.html",
+   "default_title": "ouvrir"
+   },
+   "version":"0.0.0",
+   "author":"vincent",
+   "name":"PadLocker",
+   "description":"password management",
+   "permissions": [
+    "activeTab",
+    "identity"
+  ],
+  "key":"",
+  "oauth2": {
+    "client_id": "1031711452331-l0eup60e0bof7lhme70v6c8b7ag224rj.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  }
+  }

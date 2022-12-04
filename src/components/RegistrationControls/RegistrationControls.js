@@ -18,7 +18,7 @@ height: 20px;
 -webkit-appearance: none;
 border-radius: 50%;
 border: 2px solid #666666;
-background: ${(props) => (props.isManualPassword ? '#4d4d4d' : 'black')};
+background: ${({ ismanualpassword }) => (ismanualpassword ? '#4d4d4d' : 'black')};
 `;
 const RegistrationControlsButtonLabel = styled.p`
 margin-left: 10px;
@@ -62,7 +62,7 @@ function RegistrationControls() {
           type="button"
           whileTap={{ scale: 0.8 }}
           onClick={() => setisManualPassword(true)}
-          isManualPassword={isManualPassword}
+          ismanualpassword={isManualPassword}
         />
         <RegistrationControlsButtonLabel>
           enregistrement manuel
