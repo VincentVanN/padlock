@@ -64,27 +64,3 @@ function App() {
 }
 
 export default App;
-
-// {
-//   "name": "PadLocker",
-//   "description": "Gestionnaire de mots de passe",
-//   "version": "0.1",
-//   "manifest_version": 2,
-//   "browser_action": {
-//     "default_popup": "index.html",
-//     "default_title": "Ouvrir PadLocker"
-//   },
-//   "icons": {
-//     "16": "padlocker.png",
-//     "48": "padlocker.png",
-//     "128": "padlocker.png"
-//   },
-//   "permissions": [
-//     "activeTab",
-//     "identity"
-//   ],
-//   "optional_permissions": [
-//     "<all_urls>"
-//   ],
-//   "content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://www.googleapis.com https://securetoken.googleapis.com; object-src 'self'"
-// }
