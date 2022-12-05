@@ -1,16 +1,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
-import { collection } from '@firebase/firestore';
-import { useState } from 'react';
+/* global chrome */
+import { collection, getDocs } from '@firebase/firestore';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { db } from '../../firebase.config';
-import { useConnexion } from '../../hooks/useConnexion';
-import useUrl from '../../hooks/useUrl';
+import { auth, db } from '../../firebase.config';
 import PasswordLabel from '../PasswordLabel/PasswordLabel';
 import PswField from '../PswField/PswField';
 import RegistrationControls from '../RegistrationControls/RegistrationControls';
-import { useGetUser } from '../../hooks/useGetUser';
+import UrlComponent from './UrlComponent';
 
 const AppContainer = styled.div`
   position: absolute;
@@ -38,32 +38,53 @@ const Title = styled.h1`
   font-size: 2em;
   text-align: center;
 `;
-const Url = styled.div`
-font-size: 0.9em;
-text-align: center;
-margin-bottom: 20px;
-`;
+
 function App() {
+  console.log('App');
   const [password, setpassword] = useState({ value: '', copied: false });
   const [ifPasswordExist, setifPasswordExist] = useState(false);
-  const url = useUrl();
   const userCollectionRef = collection(db, 'users');
-  const [logged, users] = useConnexion(userCollectionRef);
-  const data = useGetUser(userCollectionRef, users);
-
+  const [users, setUsers] = useState([]);
+  const getUsers = async () => {
+    const data = await getDocs(userCollectionRef);
+    setUsers(data.docs);
+  };
+  useEffect(() => {
+    if (users.length === 0) {
+      console.log('connexion');
+      chrome.identity.getAuthToken({ interactive: true }, (token) => {
+        if (chrome.runtime.lastError || !token) {
+          alert(`chrome get token error : ${JSON.stringify(chrome.runtime.lastError)}`);
+          return;
+        }
+        signInWithCredential(auth, GoogleAuthProvider.credential(null, token))
+          .then((res) => {
+            getUsers();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    }
+  }, [users]);
   return (
     <AppContainer>
       <Header>
         <img src="/lock-48.png" alt="lock" />
         <Title>PadLocker</Title>
       </Header>
-      <Url>
-        Hôte: {url}
-      </Url>
-      <PasswordLabel ifPasswordExist={ifPasswordExist} />
-      <PswField password={password} setpassword={setpassword} ifPasswordExist={ifPasswordExist} />
-      {password.value && (
-        <RegistrationControls />
+      {users.length !== 0 && (
+      <div>
+        <UrlComponent />
+        <PasswordLabel ifPasswordExist={ifPasswordExist} />
+        <PswField password={password} setpassword={setpassword} ifPasswordExist={ifPasswordExist} />
+        {password.value && (
+        <RegistrationControls userCollectionRef={userCollectionRef} users={users} />
+        )}
+      </div>
+      )}
+      {!users.length === 0 && (
+        <p>Vous devez être connecté à votre compte google</p>
       )}
     </AppContainer>
   );
