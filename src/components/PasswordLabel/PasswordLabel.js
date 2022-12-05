@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
 
 const PasswordManagementLabel = styled.div`
@@ -18,4 +19,4 @@ function PasswordLabel({ ifPasswordExist }) {
 PasswordLabel.propTypes = {
   ifPasswordExist: PropTypes.bool.isRequired,
 };
-export default PasswordLabel;
+export default React.memo(PasswordLabel);
