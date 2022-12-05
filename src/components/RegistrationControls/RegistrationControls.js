@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { useGetUser } from '../../hooks/useGetUser';
 
 const RegistationControlsContainer = styled.div`
 width: 100%;
@@ -41,10 +42,12 @@ display: flex;
 align-items: center;
 justify-content: center;
 `;
-function RegistrationControls() {
+function RegistrationControls({ userCollectionRef, users }) {
   const [isManualPassword, setisManualPassword] = useState(false);
   const [isHidden, setisHidden] = useState(true);
   const ref = useRef();
+  const data = useGetUser(userCollectionRef, users);
+  console.log(data);
   return (
     <RegistationControlsContainer>
       <RegistrationControlsButtonContainer>
