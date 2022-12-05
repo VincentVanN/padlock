@@ -1,13 +1,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
+import { collection } from '@firebase/firestore';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { db } from '../../firebase.config';
+import { useConnexion } from '../../hooks/useConnexion';
 import useUrl from '../../hooks/useUrl';
-import SignIn from '../../SignIn';
 import PasswordLabel from '../PasswordLabel/PasswordLabel';
 import PswField from '../PswField/PswField';
 import RegistrationControls from '../RegistrationControls/RegistrationControls';
+import { useGetUser } from '../../hooks/useGetUser';
 
 const AppContainer = styled.div`
   position: absolute;
@@ -44,13 +47,16 @@ function App() {
   const [password, setpassword] = useState({ value: '', copied: false });
   const [ifPasswordExist, setifPasswordExist] = useState(false);
   const url = useUrl();
+  const userCollectionRef = collection(db, 'users');
+  const [logged, users] = useConnexion(userCollectionRef);
+  const data = useGetUser(userCollectionRef, users);
+
   return (
     <AppContainer>
       <Header>
         <img src="/lock-48.png" alt="lock" />
         <Title>PadLocker</Title>
       </Header>
-      <SignIn />
       <Url>
         Hôte: {url}
       </Url>
