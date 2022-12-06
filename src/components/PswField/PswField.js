@@ -7,36 +7,61 @@ import { setpassword } from '../../../app.slice';
 
 const PswFieldContainer = styled.div`
   width: 100%;
-  height: 40px;
-  margin-top: 10px;
-  font-weight: 600;
-`;
-const Title = styled.h2`
-  color: rgba(255,255,255,0.8);
-  text-align: center;
-  margin-top: 10px;
-  &:hover{
-    color: #3260a8;
-    cursor: pointer;
-    };
-`;
-const PswdContainer = styled.div`
-  width: 100%;
-  text-align: center;
-  font-size: 1.2em;
-  margin-top: 20px;
+  height: 35%;
   display: flex;
+  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 20px;
 `;
 const ClipBoardIcon = styled.div`
-margin-left: 20px;
+height: 100%;
 font-size: 0.8em;
+margin: auto;
   &:hover{
-    color: #3260a8;
     cursor: pointer;
+    color: black;
+    font-weight: 600;
     };
 `;
+export const StyledDivButton = styled.div`
+  width: 85%;
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 20px 30px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+  border-radius: 40px;
+  font-size: 0.8em;
+  box-shadow: -2px -2px 8px rgba(255, 255, 255, 1), -2px -2px 12px rgba(255, 255, 255, 0.5), inset 2px 2px 4px rgba(255, 255, 255, 0.1), 2px 2px 8px rgba(0, 0, 0, 0.15)
+  ;
+  &:hover{
+    cursor: pointer;
+    box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1), inset -2px -2px 12px rgba(255, 255, 255, 0.5), inset 2px 2px 4px rgba(255, 255, 255, 0.1), inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+    & p{
+      scale: 0.98;
+    }
+    };
+`;
+export const StyledDiv = styled.div`
+  width: 85%;
+  text-align: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 20px 30px;
+  margin: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 40px;
+  text-align: center;
+  box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1), inset -2px -2px 12px rgba(255, 255, 255, 0.5), inset 2px 2px 4px rgba(255, 255, 255, 0.1), inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+ `;
 function PswField() {
   const password = useSelector((state) => state.app.password);
   const dispatch = useDispatch();
@@ -53,25 +78,48 @@ function PswField() {
   return (
     <PswFieldContainer>
       {!password.value && (
-      <Title
-        onClick={handleClick}
-      >Générer un mot de passe
-      </Title>
+        <StyledDivButton
+          onClick={handleClick}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '17%',
+            transform: 'translate(-50px, -50px)',
+          }}
+        >
+          <p>Générer un mot de passe</p>
+        </StyledDivButton>
       )}
       {password.value && (
-        <PswdContainer>
-          <p>{password.value}</p>
-          <CopyToClipboard
-            text={password.value}
-            onCopy={() => dispatch(setpassword({ ...password, copied: true }))}
-          >
-            <ClipBoardIcon>
-              {!password.copied ? 'Copier?' : 'Copié!'}
-            </ClipBoardIcon>
-          </CopyToClipboard>
-        </PswdContainer>
-      )}
 
+        <div
+          style={{
+            display: 'flex',
+            alignItem: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <StyledDiv>
+            <p>{password.value}</p>
+          </StyledDiv>
+          <div
+            style={{
+              margin: 'auto',
+            }}
+          >
+            <CopyToClipboard
+              text={password.value}
+              onCopy={() => dispatch(setpassword({ ...password, copied: true }))}
+            >
+              <ClipBoardIcon>
+                {!password.copied ? 'Copier?' : 'Copié!'}
+              </ClipBoardIcon>
+            </CopyToClipboard>
+          </div>
+
+        </div>
+
+      )}
     </PswFieldContainer>
   );
 }

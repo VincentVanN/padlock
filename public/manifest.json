@@ -19,9 +19,6 @@
     "activeTab",
     "identity"
   ],
-  "background": {
-    "service_worker": "./background.js"
-    },
   "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsmTao+j08rLaejo+mTBOFyf86paOmNCaVLuE4nqnu66lKoBNIYbfhsplpB0AWFBbNIGQlBCeaxoP+xZrDK/huBgtX124TGggwXRfXfcn/KI9QnR8JdWmwfm9WHPm/EO7MS6qyg3uIsIoaiIKJLU2zsq44qP6gNbCXuYxPs2Buwt1U+prAk9lkvRNbNaUWd+1sl95Q5LY0T8HyZfSjECQbyaAwmgPwvPbswxPqDZlIWnHlM7HFGWHbRtCczVDuz/JVngD2y7UMZgVpSbJn9ijJKb/Sn49Oj1880yxOrNnNnEa/HSlOoy1QogD3b0btb/DfBJToApsaPJyhAcgChjdRwIDAQAB",
   "oauth2": {
     "client_id": "1031711452331-l0eup60e0bof7lhme70v6c8b7ag224rj.apps.googleusercontent.com",
@@ -31,3 +28,4 @@
     ]
   }
   }
+  
