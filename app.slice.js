@@ -8,6 +8,7 @@ import {
   getUser,
   getUsers,
   memorizePassword,
+  updatePassword,
 } from './asyncChunkApp';
 
 export const appSlice = createSlice({
@@ -21,83 +22,46 @@ export const appSlice = createSlice({
     createUser: false,
     isMemorizePassword: false,
     currentPasswordObject: null,
+    updatedPassword: false,
   },
   extraReducers: {
-    [chromeConnexion.pending]: () => {
-      console.log('[chromeConnexion]waiting...');
-    },
     [chromeConnexion.fulfilled]: (state) => {
       state.chromeConnexion = true;
       console.log('[chromeConnexion] OK!');
     },
-    [chromeConnexion.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[chromeConnexion] request rejected');
-    },
     //
     //
-    [getUsers.pending]: () => {
-      console.log('[getUsers]waiting...');
-    },
     [getUsers.fulfilled]: (state, { payload }) => {
       state.users = payload;
       console.log('[getUsers] OK!');
     },
-    [getUsers.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[getUsers] request rejected');
-    },
     //
     //
-    [createUser.pending]: () => {
-      console.log('[createUser]waiting...');
-    },
     [createUser.fulfilled]: (state, { payload }) => {
       state.createUser = payload;
       console.log('[createUser] OK!');
     },
-    [createUser.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[createUser] request rejected');
-    },
     //
     //
-    [getUser.pending]: () => {
-      console.log('[getUser]waiting...');
-    },
     [getUser.fulfilled]: (state, { payload }) => {
       payload.forEach((element) => state.data.push({ id: element.id, data: element.data() }));
       console.log('[getUser] OK!');
     },
-    [getUser.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[getUser] request rejected');
-    },
     //
     //
-    [memorizePassword.pending]: () => {
-      console.log('[memorizePassword]waiting...');
-    },
     [memorizePassword.fulfilled]: (state) => {
       state.isMemorizePassword = true;
       console.log('[memorizePassword] OK!');
     },
-    [memorizePassword.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[memorizePassword] request rejected');
-    },
     //
     //
-    [getPassword.pending]: () => {
-      console.log('[getPassword]waiting...');
-    },
     [getPassword.fulfilled]: (state, { payload }) => {
-      state.currentPasswordObject = payload;
+      state.currentPasswordObject = { id: payload.id, data: payload.data() };
       console.log('[getPassword] OK!');
     },
-    [getPassword.rejected]: ({ payload }) => {
-      console.log(payload);
-      console.log('[getPassword] request rejected');
+    [updatePassword.fulfilled]: (state) => {
+      state.updatedPassword = true;
+      console.log('[updatePassword] OK!');
     },
   },
   reducers: {
@@ -107,10 +71,14 @@ export const appSlice = createSlice({
     setUrl: (state, { payload }) => {
       state.url = payload;
     },
+    setUpdatedPassword: (state) => {
+      state.updatedPassword = false;
+    },
   },
 });
 export const {
   setpassword,
   setUrl,
+  setUpdatedPassword,
 } = appSlice.actions;
 export default appSlice.reducer;
