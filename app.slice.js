@@ -6,6 +6,7 @@ import {
   createUser,
   getUser,
   getUsers,
+  memorizePassword,
 } from './asyncChunkApp';
 
 export const appSlice = createSlice({
@@ -18,6 +19,7 @@ export const appSlice = createSlice({
     chromeConnexion: false,
     url: '',
     createUser: false,
+    isMemorizePassword: false,
   },
   extraReducers: {
     [chromeConnexion.pending]: () => {
@@ -70,6 +72,19 @@ export const appSlice = createSlice({
       console.log(payload);
       console.log('[getUser] request rejected');
     },
+    //
+    //
+    [memorizePassword.pending]: () => {
+      console.log('[memorizePassword]waiting...');
+    },
+    [memorizePassword.fulfilled]: (state) => {
+      state.isMemorizePassword = true;
+      console.log('[memorizePassword] OK!');
+    },
+    [memorizePassword.rejected]: ({ payload }) => {
+      console.log(payload);
+      console.log('[memorizePassword] request rejected');
+    },
   },
   reducers: {
     setpassword: (state, { payload }) => {
@@ -78,10 +93,14 @@ export const appSlice = createSlice({
     setifPasswordExist: (state, { payload }) => {
       state.ifPasswordExist = payload;
     },
+    setUrl: (state, { payload }) => {
+      state.url = payload;
+    },
   },
 });
 export const {
   setpassword,
   setifPasswordExist,
+  setUrl,
 } = appSlice.actions;
 export default appSlice.reducer;

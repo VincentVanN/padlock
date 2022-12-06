@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { memorizePassword } from '../../../asyncChunkApp';
 
 const RegistationControlsContainer = styled.div`
 width: 100%;
@@ -42,19 +44,25 @@ align-items: center;
 justify-content: center;
 `;
 function RegistrationControls() {
+  const dispatch = useDispatch();
+  const { isMemorizePassword } = useSelector((state) => state.app);
   const [isManualPassword, setisManualPassword] = useState(false);
   const [isHidden, setisHidden] = useState(true);
   const ref = useRef();
+  const registrationHandler = () => {
+    setisManualPassword(false);
+    dispatch(memorizePassword());
+  };
   return (
     <RegistationControlsContainer>
       <RegistrationControlsButtonContainer>
         <RegistrationControlsButton
           type="button"
           whileTap={{ scale: 0.8 }}
-          onClick={() => setisManualPassword(false)}
+          onClick={registrationHandler}
         />
         <RegistrationControlsButtonLabel>
-          enregistrer le mot de passe généré
+          {isMemorizePassword ? 'Mot de passe enregistré!' : 'Enregistrer le mot de passe généré'}
         </RegistrationControlsButtonLabel>
       </RegistrationControlsButtonContainer>
       <RegistrationControlsButtonContainer>

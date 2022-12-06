@@ -11,6 +11,7 @@ import {
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth, db } from './src/firebase.config';
+import { encrypt } from './utils/aes';
 
 const userCollectionRef = collection(db, 'users');
 
@@ -63,6 +64,20 @@ export const getUser = createAsyncThunk(
       const urlCollectionRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
       const currentData = await getDocs(urlCollectionRef);
       return currentData.docs;
+    }
+    catch (error) {
+      return error;
+    }
+  },
+);
+
+export const memorizePassword = createAsyncThunk(
+  'app/memorisePassword',
+  async (_, { getState }) => {
+    try {
+      const memorizePasswordRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
+      await setDoc(doc(memorizePasswordRef), { password: encrypt(getState().app.password.value), url: getState().app.url });
+      return true;
     }
     catch (error) {
       return error;
