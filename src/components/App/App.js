@@ -15,6 +15,7 @@ import {
 } from '../../../asyncChunkApp';
 import { auth } from '../../firebase.config';
 import PasswordLabel from '../PasswordLabel/PasswordLabel';
+import PasswordPresent from '../PasswordPresent';
 import PswField from '../PswField/PswField';
 import RegistrationControls from '../RegistrationControls/RegistrationControls';
 import UrlComponent from './UrlComponent';
@@ -47,7 +48,6 @@ const Title = styled.h1`
 `;
 
 function App() {
-  console.log('App');
   const dispatch = useDispatch();
   const {
     users,
@@ -104,6 +104,9 @@ function App() {
         <RegistrationControls />
         )}
       </div>
+      )}
+      {currentPasswordObject && (
+        <PasswordPresent />
       )}
       {!users.length === 0 && (
         <p>Vous devez être connecté à votre compte google</p>
