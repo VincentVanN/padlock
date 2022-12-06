@@ -1,12 +1,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
-/* global chrome */
-import { collection, getDocs } from '@firebase/firestore';
-import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { auth, db } from '../../firebase.config';
+import {
+  chromeConnexion,
+  createUser,
+  getUser,
+  getUsers,
+} from '../../../asyncChunkApp';
+import { auth } from '../../firebase.config';
 import PasswordLabel from '../PasswordLabel/PasswordLabel';
 import PswField from '../PswField/PswField';
 import RegistrationControls from '../RegistrationControls/RegistrationControls';
@@ -41,32 +45,24 @@ const Title = styled.h1`
 
 function App() {
   console.log('App');
-  const [password, setpassword] = useState({ value: '', copied: false });
-  const [ifPasswordExist, setifPasswordExist] = useState(false);
-  const userCollectionRef = collection(db, 'users');
-  const [users, setUsers] = useState([]);
-  const getUsers = async () => {
-    const data = await getDocs(userCollectionRef);
-    setUsers(data.docs);
-  };
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.app.users);
+  const password = useSelector((state) => state.app.password);
+  const data = useSelector((state) => state.app.data);
   useEffect(() => {
-    if (users.length === 0) {
-      console.log('connexion');
-      chrome.identity.getAuthToken({ interactive: true }, (token) => {
-        if (chrome.runtime.lastError || !token) {
-          alert(`chrome get token error : ${JSON.stringify(chrome.runtime.lastError)}`);
-          return;
-        }
-        signInWithCredential(auth, GoogleAuthProvider.credential(null, token))
-          .then((res) => {
-            getUsers();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
+    dispatch(chromeConnexion());
+    if (chromeConnexion) {
+      dispatch(getUsers());
     }
-  }, [users]);
+  }, [chromeConnexion]);
+  useEffect(() => {
+    if (users.length !== 0 && data.length === 0) {
+      if (users.some((element) => element.id === auth.currentUser.uid)) {
+        dispatch(getUser());
+      }
+      else dispatch(createUser());
+    }
+  }, [users, data]);
   return (
     <AppContainer>
       <Header>
@@ -76,10 +72,10 @@ function App() {
       {users.length !== 0 && (
       <div>
         <UrlComponent />
-        <PasswordLabel ifPasswordExist={ifPasswordExist} />
-        <PswField password={password} setpassword={setpassword} ifPasswordExist={ifPasswordExist} />
+        <PasswordLabel />
+        <PswField />
         {password.value && (
-        <RegistrationControls userCollectionRef={userCollectionRef} users={users} />
+        <RegistrationControls />
         )}
       </div>
       )}
