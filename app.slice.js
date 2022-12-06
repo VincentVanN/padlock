@@ -4,20 +4,23 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   chromeConnexion,
   createUser,
+  getPassword,
   getUser,
   getUsers,
+  memorizePassword,
 } from './asyncChunkApp';
 
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
     password: { value: '', copied: false },
-    ifPasswordExist: false,
     users: [],
     data: [],
     chromeConnexion: false,
     url: '',
     createUser: false,
+    isMemorizePassword: false,
+    currentPasswordObject: null,
   },
   extraReducers: {
     [chromeConnexion.pending]: () => {
@@ -63,25 +66,51 @@ export const appSlice = createSlice({
       console.log('[getUser]waiting...');
     },
     [getUser.fulfilled]: (state, { payload }) => {
-      state.data = payload.map((element) => ([...state.data, { id: element.id, data: element.data() }]));
+      payload.forEach((element) => state.data.push({ id: element.id, data: element.data() }));
       console.log('[getUser] OK!');
     },
     [getUser.rejected]: ({ payload }) => {
       console.log(payload);
       console.log('[getUser] request rejected');
     },
+    //
+    //
+    [memorizePassword.pending]: () => {
+      console.log('[memorizePassword]waiting...');
+    },
+    [memorizePassword.fulfilled]: (state) => {
+      state.isMemorizePassword = true;
+      console.log('[memorizePassword] OK!');
+    },
+    [memorizePassword.rejected]: ({ payload }) => {
+      console.log(payload);
+      console.log('[memorizePassword] request rejected');
+    },
+    //
+    //
+    [getPassword.pending]: () => {
+      console.log('[getPassword]waiting...');
+    },
+    [getPassword.fulfilled]: (state, { payload }) => {
+      state.currentPasswordObject = payload;
+      console.log('[getPassword] OK!');
+    },
+    [getPassword.rejected]: ({ payload }) => {
+      console.log(payload);
+      console.log('[getPassword] request rejected');
+    },
   },
   reducers: {
     setpassword: (state, { payload }) => {
       state.password = payload;
     },
-    setifPasswordExist: (state, { payload }) => {
-      state.ifPasswordExist = payload;
+    setUrl: (state, { payload }) => {
+      state.url = payload;
     },
   },
 });
 export const {
   setpassword,
-  setifPasswordExist,
+  setUrl,
 } = appSlice.actions;
 export default appSlice.reducer;
