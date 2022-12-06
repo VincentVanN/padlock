@@ -1,7 +1,7 @@
-import useUrl from '../../hooks/useUrl';
+import { useSelector } from 'react-redux';
 
 function UrlComponent() {
-  const url = useUrl();
+  const { url } = useSelector((state) => state.app);
   return (
     <div>
       Hôte: {url}

@@ -10,10 +10,10 @@ text-align: center;
 
 `;
 function PasswordLabel() {
-  const ifPasswordExist = useSelector((state) => state.app.ifPasswordExist);
+  const { currentPasswordObject } = useSelector((state) => state.app);
   return (
     <PasswordManagementLabel>
-      {ifPasswordExist ? 'Un mot de passe existe pour ce site' : 'pas de mot de passe enregistré pour ce site'}
+      {currentPasswordObject ? 'Un mot de passe existe pour ce site' : 'pas de mot de passe enregistré pour ce site'}
     </PasswordManagementLabel>
   );
 }
