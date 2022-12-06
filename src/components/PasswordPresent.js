@@ -9,12 +9,18 @@ function PasswordPresent() {
   const { currentPasswordObject, updatedPassword } = useSelector((state) => state.app);
   const [isPasswordHidden, setisPasswordHidden] = useState(true);
   const [modify, setModify] = useState(false);
+  const [message, setmessage] = useState('');
   const passwordToDisplay = decrypt(currentPasswordObject.data.password);
   const ref = useRef(null);
   const handleModify = () => {
-    dispatch(setpassword({ value: ref.current.value, copied: false }));
-    dispatch(updatePassword(currentPasswordObject.id));
-    setModify(false);
+    if (!ref.current.value) {
+      setmessage('vous devez saisir un mot de passe');
+    }
+    else {
+      dispatch(setpassword({ value: ref.current.value, copied: false }));
+      dispatch(updatePassword(currentPasswordObject.id));
+      setModify(false);
+    }
   };
   useEffect(() => {
     if (updatedPassword) {
@@ -31,7 +37,11 @@ function PasswordPresent() {
       </div>
       {modify && (
         <>
-          <input ref={ref} type="password" />
+          <input
+            ref={ref}
+            type="password"
+            onFocus={() => setmessage('')}
+          />
           <button
             type="button"
             onClick={handleModify}
@@ -50,6 +60,12 @@ function PasswordPresent() {
       <div>
         remplir les champs
       </div>
+      {message && (
+      <div>
+        {message}
+      </div>
+      )}
+
     </div>
   );
 }

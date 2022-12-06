@@ -21,30 +21,34 @@ import RegistrationControls from '../RegistrationControls/RegistrationControls';
 import UrlComponent from './UrlComponent';
 
 const AppContainer = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  width: 400px;
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  background: #000;
-  color: white;
-  padding-bottom: 40px;
+`;
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
 `;
 const Header = styled.div`
+  width: 100%;
+  height: 15%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  justify-content: center;
+  margin-top: 10px;
 `;
 const Title = styled.h1`
   width: 100%;
-  height: 20%;
   font-size: 2em;
   text-align: center;
+  margin-top: 20px;
 `;
 
 function App() {
@@ -55,6 +59,7 @@ function App() {
     data,
     url,
     currentPasswordObject,
+    isMemorizePassword,
   } = useSelector((state) => state.app);
   useEffect(() => {
     const queryInfo = { active: true, lastFocusedWindow: true };
@@ -87,30 +92,45 @@ function App() {
       }
     }
   }, [data, url]);
+  useEffect(() => {
+    if (isMemorizePassword) {
+      dispatch(getUser());
+    }
+  }, [isMemorizePassword]);
   return (
     <AppContainer>
       <Header>
-        <img src="/lock-48.png" alt="lock" />
+        <img
+          src="/padlocker.png"
+          alt="lock"
+          style={{
+            width: '48px',
+            height: '48px',
+            opacity: '0.6',
+          }}
+        />
         <Title>PadLocker</Title>
       </Header>
-      {users.length !== 0 && (
+      <ContentContainer>
+        {users.length !== 0 && (
         <PasswordLabel />
-      )}
-      {users.length !== 0 && !currentPasswordObject && (
-      <div>
-        <UrlComponent />
-        <PswField />
-        {password.value && (
-        <RegistrationControls />
         )}
-      </div>
-      )}
-      {currentPasswordObject && (
+        {users.length !== 0 && !currentPasswordObject && (
+        <div>
+          <UrlComponent />
+          <PswField />
+          {password.value && (
+          <RegistrationControls />
+          )}
+        </div>
+        )}
+        {currentPasswordObject && (
         <PasswordPresent />
-      )}
-      {!users.length === 0 && (
+        )}
+        {!users.length === 0 && (
         <p>Vous devez être connecté à votre compte google</p>
-      )}
+        )}
+      </ContentContainer>
     </AppContainer>
   );
 }
