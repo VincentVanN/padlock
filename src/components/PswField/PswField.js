@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useDispatch, useSelector } from 'react-redux';
 import { generator } from '../../../utils/generator';
+import { setpassword } from '../../../app.slice';
 
 const PswFieldContainer = styled.div`
   width: 100%;
@@ -36,14 +37,16 @@ font-size: 0.8em;
     cursor: pointer;
     };
 `;
-function PswField({ password, setpassword, ifPasswordExist }) {
+function PswField() {
+  const password = useSelector((state) => state.app.password);
+  const dispatch = useDispatch();
   const handleClick = useCallback(() => {
-    setpassword({ ...password, value: generator() });
+    dispatch(setpassword({ ...password, value: generator() }));
   }, []);
   useEffect(() => {
     if (password.copied) {
       setTimeout(() => {
-        setpassword({ ...password, copied: false });
+        dispatch(setpassword({ ...password, copied: false }));
       }, 3000);
     }
   }, [password]);
@@ -60,7 +63,7 @@ function PswField({ password, setpassword, ifPasswordExist }) {
           <p>{password.value}</p>
           <CopyToClipboard
             text={password.value}
-            onCopy={() => setpassword({ ...password, copied: true })}
+            onCopy={() => dispatch(setpassword({ ...password, copied: true }))}
           >
             <ClipBoardIcon>
               {!password.copied ? 'Copier?' : 'Copié!'}
@@ -72,9 +75,4 @@ function PswField({ password, setpassword, ifPasswordExist }) {
     </PswFieldContainer>
   );
 }
-PswField.propTypes = {
-  password: PropTypes.object.isRequired,
-  setpassword: PropTypes.func.isRequired,
-  ifPasswordExist: PropTypes.bool.isRequired,
-};
 export default PswField;
