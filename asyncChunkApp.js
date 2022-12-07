@@ -25,8 +25,6 @@ export const chromeConnexion = createAsyncThunk(
     }
     try {
       signInWithCredential(auth, GoogleAuthProvider.credential(null, token));
-      // getUsers();
-      // return result.data;
     }
     catch (error) {
       console.log(error);
@@ -37,77 +35,47 @@ export const chromeConnexion = createAsyncThunk(
 export const getUsers = createAsyncThunk(
   'app/getUsers',
   async () => {
-    try {
-      const data = await getDocs(userCollectionRef);
-      return data.docs;
-    }
-    catch (error) {
-      return error;
-    }
+    const data = await getDocs(userCollectionRef);
+    return data.docs;
   },
 );
 export const createUser = createAsyncThunk(
   'app/createUser',
   async () => {
-    try {
-      await setDoc(doc(userCollectionRef, auth.currentUser.uid), { email: auth.currentUser.email, name: auth.currentUser.displayName });
-      return true;
-    }
-    catch (error) {
-      return error;
-    }
+    await setDoc(doc(userCollectionRef, auth.currentUser.uid), { email: auth.currentUser.email, name: auth.currentUser.displayName });
+    return true;
   },
 );
 export const getUser = createAsyncThunk(
   'app/getUser',
   async () => {
-    try {
-      const urlCollectionRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
-      const currentData = await getDocs(urlCollectionRef);
-      return currentData.docs;
-    }
-    catch (error) {
-      return error;
-    }
+    const urlCollectionRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
+    const currentData = await getDocs(urlCollectionRef);
+    return currentData.docs;
   },
 );
 
 export const memorizePassword = createAsyncThunk(
   'app/memorisePassword',
   async (_, { getState }) => {
-    try {
-      const memorizePasswordRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
-      await setDoc(doc(memorizePasswordRef), { password: encrypt(getState().app.password.value), url: getState().app.url });
-      return true;
-    }
-    catch (error) {
-      return error;
-    }
+    const memorizePasswordRef = collection(db, `users/${auth.currentUser.uid}/urlData`);
+    await setDoc(doc(memorizePasswordRef), { password: encrypt(getState().app.password.value), url: getState().app.url });
+    return true;
   },
 );
 export const getPassword = createAsyncThunk(
   'app/getPassword',
   async (passwordId) => {
-    try {
-      const passwordRef = doc(db, 'users', auth.currentUser.uid, 'urlData', passwordId);
-      const currentData = await getDoc(passwordRef);
-      return currentData;
-    }
-    catch (error) {
-      return error;
-    }
+    const passwordRef = doc(db, 'users', auth.currentUser.uid, 'urlData', passwordId);
+    const currentData = await getDoc(passwordRef);
+    return currentData;
   },
 );
 export const updatePassword = createAsyncThunk(
   'app/updatePassword',
   async (passwordId, { getState }) => {
-    try {
-      const passwordRef = doc(db, 'users', auth.currentUser.uid, 'urlData', passwordId);
-      const currentData = await setDoc(passwordRef, { url: getState().app.url, password: encrypt(getState().app.password.value) });
-      return currentData;
-    }
-    catch (error) {
-      return error;
-    }
+    const passwordRef = doc(db, 'users', auth.currentUser.uid, 'urlData', passwordId);
+    const currentData = await setDoc(passwordRef, { url: getState().app.url, password: encrypt(getState().app.password.value) });
+    return currentData;
   },
 );

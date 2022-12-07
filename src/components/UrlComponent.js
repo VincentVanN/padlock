@@ -12,7 +12,7 @@ function UrlComponent() {
   const { url } = useSelector((state) => state.app);
   return (
     <UrlContainer>
-      Hôte: {url}
+      {url}
     </UrlContainer>
   );
 }

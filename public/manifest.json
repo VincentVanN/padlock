@@ -11,10 +11,10 @@
    "default_popup":"index.html",
    "default_title": "ouvrir"
    },
-   "version":"0.0.0",
-   "author":"vincent",
+   "version":"0.5",
+   "author":"vinc Vann",
    "name":"PadLocker",
-   "description":"password management",
+   "description":"Password Manager, génère et mémorise vos mots de passe",
    "permissions": [
     "activeTab",
     "identity"

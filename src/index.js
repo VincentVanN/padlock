@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import App from 'src/components/App/App';
+import App from 'src/components/App/';
 import store from 'src/store';
 
 const rootReactElement = (

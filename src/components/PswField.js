@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
-import { generator } from '../../../utils/generator';
-import { setpassword } from '../../../app.slice';
+import { generator } from '../../utils/generator';
+import { setpassword } from '../../app.slice';
 
 const PswFieldContainer = styled.div`
   width: 100%;
@@ -14,10 +14,12 @@ const PswFieldContainer = styled.div`
   align-items: center;
   margin-top: 20px;
 `;
-const ClipBoardIcon = styled.div`
+export const ClickText = styled.div`
 height: 100%;
 font-size: 0.8em;
-margin: auto;
+display: flex;
+align-items: center;
+justify-content: center;
   &:hover{
     cursor: pointer;
     color: black;
@@ -111,9 +113,9 @@ function PswField() {
               text={password.value}
               onCopy={() => dispatch(setpassword({ ...password, copied: true }))}
             >
-              <ClipBoardIcon>
+              <ClickText>
                 {!password.copied ? 'Copier?' : 'Copié!'}
-              </ClipBoardIcon>
+              </ClickText>
             </CopyToClipboard>
           </div>
 

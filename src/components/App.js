@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
@@ -5,19 +6,20 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { setUrl } from '../../../app.slice';
+import { setLoading, setUrl } from '../../app.slice';
 import {
   chromeConnexion,
   createUser,
   getPassword,
   getUser,
   getUsers,
-} from '../../../asyncChunkApp';
-import { auth } from '../../firebase.config';
-import PasswordLabel from '../PasswordLabel/PasswordLabel';
-import PasswordPresent from '../PasswordPresent';
-import PswField from '../PswField/PswField';
-import RegistrationControls from '../RegistrationControls/RegistrationControls';
+} from '../../asyncChunkApp';
+import { auth } from '../firebase.config';
+import Loader from './Loader/Loader';
+import PasswordLabel from './PasswordLabel';
+import PasswordPresent from './PasswordPresent';
+import PswField from './PswField';
+import RegistrationControls from './RegistrationControls';
 import UrlComponent from './UrlComponent';
 
 const AppContainer = styled.div`
@@ -50,7 +52,13 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 20px;
 `;
-
+const Footer = styled.div`
+  position: absolute;
+  bottom: 5px;
+  margin: auto;
+  opacity: 0.5;
+  font-size: 0.8em;
+`;
 function App() {
   const dispatch = useDispatch();
   const {
@@ -60,6 +68,7 @@ function App() {
     url,
     currentPasswordObject,
     isMemorizePassword,
+    loading,
   } = useSelector((state) => state.app);
   useEffect(() => {
     const queryInfo = { active: true, lastFocusedWindow: true };
@@ -97,6 +106,13 @@ function App() {
       dispatch(getUser());
     }
   }, [isMemorizePassword]);
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        dispatch(setLoading(false));
+      }, 1000);
+    }
+  }, [loading]);
   return (
     <AppContainer>
       <Header>
@@ -111,6 +127,8 @@ function App() {
         />
         <Title>PadLocker</Title>
       </Header>
+      {loading && (<Loader />)}
+      {!loading && (
       <ContentContainer>
         {users.length !== 0 && (
         <PasswordLabel />
@@ -131,6 +149,8 @@ function App() {
         <p>Vous devez être connecté à votre compte google</p>
         )}
       </ContentContainer>
+      )}
+      <Footer>&copy; Vinc VanN</Footer>
     </AppContainer>
   );
 }
