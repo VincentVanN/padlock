@@ -14,6 +14,7 @@ import {
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
+    loading: true,
     password: { value: '', copied: false },
     users: [],
     data: [],
@@ -59,6 +60,8 @@ export const appSlice = createSlice({
       state.currentPasswordObject = { id: payload.id, data: payload.data() };
       console.log('[getPassword] OK!');
     },
+    //
+    //
     [updatePassword.fulfilled]: (state) => {
       state.updatedPassword = true;
       console.log('[updatePassword] OK!');
@@ -74,11 +77,15 @@ export const appSlice = createSlice({
     setUpdatedPassword: (state) => {
       state.updatedPassword = false;
     },
+    setLoading: (state, { payload }) => {
+      state.loading = payload;
+    },
   },
 });
 export const {
   setpassword,
   setUrl,
   setUpdatedPassword,
+  setLoading,
 } = appSlice.actions;
 export default appSlice.reducer;
