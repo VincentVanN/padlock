@@ -9,7 +9,7 @@
   "manifest_version":3,
   "action":{
    "default_popup":"index.html",
-   "default_title": "ouvrir"
+   "default_title": "open PadLocker"
    },
    "version":"0.5",
    "author":"vinc Vann",
