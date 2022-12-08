@@ -2,12 +2,12 @@
 
 INSTALLATION MANUELLE
 
--Téléchargez le repo.
--Installez les dépendances: npm install
--Build le repo: npm run build
--Cliquez sur l'icone des extensions dans chrome -> gérer les extensions
--Cliquez sur "charger l'extension non empaquetée"
--Pointez vers le dossier "dist" dans le dossier de l'application
+Téléchargez le repo.
+Installez les dépendances: npm install
+Build le repo: npm run build
+Cliquez sur l'icone des extensions dans chrome -> gérer les extensions
+Cliquez sur "charger l'extension non empaquetée"
+Pointez vers le dossier "dist" dans le dossier de l'application
 
 PadLocker apparait dans les extensions du navigateur et est fonctionnel.
 
